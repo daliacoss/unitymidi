@@ -187,12 +187,12 @@ public class UnitySynthTest : MonoBehaviour
 
 	public void MidiNoteOnHandler (int channel, int note, int velocity)
 	{
-		Debug.Log ("NoteOn: " + note.ToString () + " Velocity: " + velocity.ToString ());
+		//Debug.Log ("NoteOn: " + note.ToString () + " Velocity: " + velocity.ToString ());
 	}
 	
 	public void MidiNoteOffHandler (int channel, int note)
 	{
-		Debug.Log ("NoteOff: " + note.ToString ());
+		//Debug.Log ("NoteOff: " + note.ToString ());
 	}
 
 	
