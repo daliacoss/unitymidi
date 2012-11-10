@@ -25,6 +25,8 @@ namespace CSharpSynth.Sequencer
         public event NoteOnEventHandler NoteOnEvent;
         public delegate void NoteOffEventHandler(int channel, int note);
         public event NoteOffEventHandler NoteOffEvent;
+
+        public event Action<MidiEvent> OtherMidiEvent;
         //--Public Properties
 		public MidiFile File{
 			get {return _MidiFile;}
@@ -270,6 +272,7 @@ namespace CSharpSynth.Sequencer
                             if (midiEvent.parameter1 < synth.SoundBank.DrumCount)
                                 currentPrograms[midiEvent.channel] = midiEvent.parameter1;
                         }
+                        if (OtherMidiEvent != null) OtherMidiEvent(midiEvent);
                         break;
                     case MidiHelper.MidiChannelEvent.Note_On:
                         if (blockList.Contains(midiEvent.channel))
@@ -286,6 +289,7 @@ namespace CSharpSynth.Sequencer
                     case MidiHelper.MidiChannelEvent.Pitch_Bend:
                         //Store PitchBend as the # of semitones higher or lower
                         synth.TunePositions[midiEvent.channel] = (double)midiEvent.Parameters[1] * PitchWheelSemitoneRange;
+                        if (OtherMidiEvent != null) OtherMidiEvent(midiEvent);
                         break;
                     case MidiHelper.MidiChannelEvent.Controller:
                         switch (midiEvent.GetControllerType())
@@ -305,8 +309,10 @@ namespace CSharpSynth.Sequencer
                             default:
                                 break;
                         }
+                        if (OtherMidiEvent != null) OtherMidiEvent(midiEvent);
                         break;
                     default:
+                        if (OtherMidiEvent != null) OtherMidiEvent(midiEvent);
                         break;
                 }
             }

@@ -1,0 +1,51 @@
+{
+    "folders":
+    [
+        {
+            "file_exclude_patterns":
+            [
+                "*.meta",
+                "*.prefab"
+            ],
+            "folder_exclude_patterns":
+            [
+                "Assets/Scripts",
+                "Assets/midion"
+            ],
+            "path": "Assets"
+        },
+        {
+            "file_exclude_patterns":
+            [
+                "*.meta"
+            ],
+            "path": "Assets/Scripts"
+        },
+        {
+            "file_exclude_patterns":
+            [
+                "*.meta"
+            ],
+            "path": "Assets/midion"
+        },
+        {
+            "path": "Library/ScriptAssemblies"
+        }
+    ],
+    "settings":
+    {
+        "completesharp_assemblies":
+        [
+            "/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll",
+            "/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll",
+            "/Applications/Unity/Unity.app/Contents/Frameworks/Mono/lib/mono/2.0/UnityScript.dll",
+            "/Applications/Unity/Unity.app/Contents/Frameworks/Mono/lib/mono/2.0/Boo.Lang.dll",
+            "${project_path:Assembly-CSharp-Editor.dll}",
+            "${project_path:Assembly-CSharp-firstpass.dll}",
+            "${project_path:Assembly-CSharp-firstpass.dll}",
+            "${project_path:Assembly-UnityScript-Editor-firstpass.dll}",
+            "${project_path:Assembly-CSharp.dll}",
+            "${project_path:Assembly-UnityScript-firstpass.dll}"
+        ]
+    }
+}
