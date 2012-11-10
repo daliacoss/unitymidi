@@ -1,0 +1,3 @@
+*.meta -diff
+*.asset -diff
+*.unity -diff
