@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using CSharpSynth.Midi;
 
 public class MinionSpawner : MonoBehaviour
 {
