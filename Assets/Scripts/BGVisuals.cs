@@ -19,7 +19,14 @@ public class BGVisuals : MonoBehaviour {
 	//private float 
 
 	void Start(){
-		normalColour = Camera.main.backgroundColor;
+		if (CrossSceneComm.levelToPlay != null) {
+			PeakColour = CrossSceneComm.levelToPlay.PeakColour;
+			normalColour = CrossSceneComm.levelToPlay.normalColour;
+			peakSaturation = CrossSceneComm.levelToPlay.peakSaturation;
+			ActiveChannels = CrossSceneComm.levelToPlay.BGVisualsChannels;
+		} else {
+			normalColour = Camera.main.backgroundColor;
+		}
 		
 		midiPlayer.OnNoteOn += ProcessNoteOn;
 	}
