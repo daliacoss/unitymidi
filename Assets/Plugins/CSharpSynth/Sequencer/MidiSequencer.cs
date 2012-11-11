@@ -183,6 +183,15 @@ namespace CSharpSynth.Sequencer
             else
                 synth.NoteOffAll(false);
         }
+        public void Pause(bool noteOffAll)
+        {
+            playing = false;
+
+            if (noteOffAll)
+                synth.NoteOffAll(true);
+            else
+                synth.NoteOffAll(false);
+        }
         public bool isChannelMuted(int channel)
         {
             if (blockList.Contains((byte)channel))
