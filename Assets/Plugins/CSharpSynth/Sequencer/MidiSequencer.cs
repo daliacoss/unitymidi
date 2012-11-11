@@ -173,9 +173,9 @@ namespace CSharpSynth.Sequencer
             else
                 synth.NoteOffAll(false);
         }
-        public void Pause(bool noteOffAll)
+        public void Pause(bool toPauseOrNotToPause, bool noteOffAll)
         {
-            playing = false;
+            playing = toPauseOrNotToPause;
 
             if (noteOffAll)
                 synth.NoteOffAll(true);

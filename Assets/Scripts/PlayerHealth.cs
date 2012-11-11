@@ -30,7 +30,10 @@ public class PlayerHealth : MonoBehaviour
             var damage = collisionInfo.gameObject.GetComponent<DamageDealer>();
             if (damage != null) {
                 lastHitTime = Time.time;
-                CurrentHealth -= damage.DealDamage();
+                CurrentHealth = Math.Max(0f, CurrentHealth - damage.DealDamage());
+                if (CurrentHealth == 0f) {
+                    Application.LoadLevel("LevelSelect");
+                }
                 recharging = false;
             } else {
                 Debug.LogError("Collided with Baddo, but Baddo not deal damage");

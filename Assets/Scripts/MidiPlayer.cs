@@ -135,3 +135,15 @@ public class MidiPlayer : MonoBehaviour
         }
     }
 }
+
+public static class MidiPlayerPauser
+{
+    public static MidiPlayer instance;
+
+    public void PauseMidiPlayer()
+    {
+        if (instance != null) {
+;
+        }
+    }
+}
