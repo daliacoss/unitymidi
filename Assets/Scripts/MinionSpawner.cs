@@ -25,7 +25,7 @@ public class MinionSpawner : MonoBehaviour
     void Start()
     {
         if (CrossSceneComm.levelToPlay == null) return;
-        
+
         levelTimelineIndex = 0;
         midiPlayer.OnNoteOn += ProcessNoteOn;
         midiPlayer.OnNoteOff += ProcessNoteOff;
@@ -34,6 +34,7 @@ public class MinionSpawner : MonoBehaviour
             level = CrossSceneComm.levelToPlay;
         }
         minionContainer = new GameObject("MinionContainer").transform;
+        prefabsToSpawn = CrossSceneComm.levelToPlay.channelPrefabMap;
         Begin();
     }
 
@@ -66,8 +67,8 @@ public class MinionSpawner : MonoBehaviour
         if (channel < activeChannels.Length && !activeChannels[channel]) return;
 		
         if (noteOnsBetweenEachSpawn != 0 && noteOnCounter % noteOnsBetweenEachSpawn == 0) {
-            if (prefabsToSpawn.Length >= 1)
-                (Object.Instantiate(prefabsToSpawn[0], spawnPosition, Quaternion.identity) as GameObject).transform.parent = minionContainer;
+            if (prefabsToSpawn.Length >= channel && prefabsToSpawn[channel] != null)
+                (Object.Instantiate(prefabsToSpawn[channel], spawnPosition, Quaternion.identity) as GameObject).transform.parent = minionContainer;
         }
         noteOnCounter++;
     }
