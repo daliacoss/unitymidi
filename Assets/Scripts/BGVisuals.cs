@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class BGVisuals : MonoBehaviour {
 	
     public MidiPlayer midiPlayer;
+    public MinionSpawner minionSpawner;
 	public bool[] ActiveChannels = new bool[16];
 	
 	public Color PeakColour;
@@ -19,14 +20,14 @@ public class BGVisuals : MonoBehaviour {
 	//private float 
 
 	void Start(){
-		if (CrossSceneComm.levelToPlay != null) {
-			PeakColour = CrossSceneComm.levelToPlay.PeakColour;
-			normalColour = CrossSceneComm.levelToPlay.normalColour;
-			peakSaturation = CrossSceneComm.levelToPlay.peakSaturation;
-			ActiveChannels = CrossSceneComm.levelToPlay.BGVisualsChannels;
-		} else {
-			normalColour = Camera.main.backgroundColor;
-		}
+		if (minionSpawner == null) Debug.LogError("BGVisuals needs a reference to MinionSpawner");
+
+		//if (CrossSceneComm.levelToPlay != null) {
+		//	PeakColour = CrossSceneComm.levelToPlay.PeakColour;
+		//	normalColour = CrossSceneComm.levelToPlay.normalColour;
+		//} else {
+		//	normalColour = Camera.main.backgroundColor;
+		//}
 		
 		midiPlayer.OnNoteOn += ProcessNoteOn;
 	}
@@ -51,6 +52,9 @@ public class BGVisuals : MonoBehaviour {
 	}
 	
 	public void ProcessNoteOn(int channel, int note, int velocity){
+		ActiveChannels = CrossSceneComm.levelToPlay.timeline[minionSpawner.levelTimelineIndex].BGVisualsChannels;
+		PeakColour = CrossSceneComm.levelToPlay.timeline[minionSpawner.levelTimelineIndex].PeakColour;
+		normalColour = CrossSceneComm.levelToPlay.timeline[minionSpawner.levelTimelineIndex].normalColour;
 				
 		if (channel < ActiveChannels.Length && !ActiveChannels[channel]) return;
 		
