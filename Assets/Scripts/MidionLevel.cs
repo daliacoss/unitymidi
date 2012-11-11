@@ -4,7 +4,7 @@ using System;
 public class MidionLevel : ScriptableObject
 {
     public TextAsset midiFile;
-    public ChannelSetting[] activeChannelTimeline;
+    public ChannelSetting[] timeline;
     public GameObject[] channelPrefabMap = new GameObject[16];
 
     [Serializable]
@@ -12,10 +12,9 @@ public class MidionLevel : ScriptableObject
     {
         public float time;
         public bool[] activeChannels = new bool[16];
+        public bool[] BGVisualsChannels = new bool[16];
+        public Color PeakColour;
+        public Color normalColour;
     }
 
-    public Color PeakColour;
-    public Color normalColour;
-    public Color peakSaturation;
-    public bool[] BGVisualsChannels = new bool[16];
 }
