@@ -45,10 +45,6 @@ public class BGVisuals : MonoBehaviour {
 		//change colour
 		Camera.main.backgroundColor = Color.Lerp(normalColour, PeakColour * peakSaturation, lerpT);
 		
-		if (Input.GetKeyDown(KeyCode.F)){
-			lerpDir = 1;
-			Debug.Log(lerpDir);
-		}
 	}
 	
 	public void ProcessNoteOn(int channel, int note, int velocity){
