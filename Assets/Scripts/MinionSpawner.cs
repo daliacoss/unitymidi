@@ -7,10 +7,13 @@ using Object=UnityEngine.Object;
 public class MinionSpawner : MonoBehaviour
 {
     public Transform spawnPoint;
+	public float radius = 5f;
+	
     public MidiPlayer midiPlayer;
     public int noteOnsBetweenEachSpawn;
 
     public GameObject[] prefabsToSpawn;
+	public bool[] activeChannels = new bool[16];
 
     public Vector3 SpawnPosition { get { return spawnPoint != null ? spawnPoint.position : Vector3.zero; } }
 
@@ -25,10 +28,15 @@ public class MinionSpawner : MonoBehaviour
     int noteOnCounter = 0;
     private void ProcessNoteOn(int channel, int note, int velocity)
     {
-        if (channel == 10) return;
+		
+		var spawnPosition = new Vector3(SpawnPosition.x, UnityEngine.Random.Range(-radius, radius), SpawnPosition.z);
+
+		//if channel is not active/present in activeChannels, don't process
+        if (channel < activeChannels.Length && !activeChannels[channel]) return;
+		
         if (noteOnsBetweenEachSpawn != 0 && noteOnCounter % noteOnsBetweenEachSpawn == 0) {
             if (prefabsToSpawn.Length >= 1)
-                Object.Instantiate(prefabsToSpawn[0], SpawnPosition, Quaternion.identity);
+                Object.Instantiate(prefabsToSpawn[0], spawnPosition, Quaternion.identity);
         }
         noteOnCounter++;
     }
