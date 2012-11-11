@@ -24,6 +24,18 @@ public class MidiPlayer : MonoBehaviour
 
     public event Action<MidiEvent> OnOtherMidiEvent;
 
+    public float ElapsedTime {
+        get {
+            return (float)sequencer.Time.TotalSeconds;
+        }
+    }
+
+    public float BPM {
+        get {
+            return (float)sequencer.File.BeatsPerMinute;
+        }
+    }
+
     private StreamSynthesizer synthesizer;
     private MidiSequencer sequencer;
     private float[] sampleBuffer;
