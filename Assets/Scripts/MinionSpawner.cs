@@ -25,6 +25,7 @@ public class MinionSpawner : MonoBehaviour
     int noteOnCounter = 0;
     private void ProcessNoteOn(int channel, int note, int velocity)
     {
+        if (channel == 10) return;
         if (noteOnsBetweenEachSpawn != 0 && noteOnCounter % noteOnsBetweenEachSpawn == 0) {
             if (prefabsToSpawn.Length >= 1)
                 Object.Instantiate(prefabsToSpawn[0], SpawnPosition, Quaternion.identity);
