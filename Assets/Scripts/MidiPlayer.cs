@@ -4,11 +4,14 @@ using CSharpSynth.Sequencer;
 using CSharpSynth.Synthesis;
 using CSharpSynth.Midi;
 
+[RequireComponent (typeof(AudioListener))]
+
 public class MidiPlayer : MonoBehaviour
 {
     public float gain = 1f;
     public int sampleBufferSize = 1024;
     public static readonly string bankPath = "GM Bank/gm";
+	public string MidiFilePath = "Midis/canyon.mid";
 
     // Channel, Note, Velocity
     public event Action<int, int, int> OnNoteOn;
@@ -38,11 +41,15 @@ public class MidiPlayer : MonoBehaviour
 
     public void StartMidi(string midiFilePath)
     {
-        sequencer.Stop(true);
+        //sequencer.Stop(true);
         this.midiFilePath = midiFilePath;
         sequencer.LoadMidi(midiFilePath, false);
         sequencer.Play();
     }
+	
+	public void Play(){
+		StartMidi(MidiFilePath);
+	}
 
     private void TriggerNoteOn(int channel, int note, int velocity)
     {
@@ -62,7 +69,8 @@ public class MidiPlayer : MonoBehaviour
     void OnAudioFilterRead (float[] data, int channels)
     {
         //This uses the Unity specific float method we added to get the buffer
-        synthesizer.GetNext (sampleBuffer);
+        if (synthesizer == null ) return;
+		synthesizer.GetNext (sampleBuffer);
             
         for (int i = 0; i < data.Length; i++) {
             data[i] = sampleBuffer[i] * gain;
