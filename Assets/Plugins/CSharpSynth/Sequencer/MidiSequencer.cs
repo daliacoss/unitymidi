@@ -143,21 +143,11 @@ namespace CSharpSynth.Sequencer
             }
             return true;
         }
-        public bool LoadMidi(string file, bool UnloadUnusedInstruments)
+        public bool LoadMidi(byte[] filecontent, bool UnloadUnusedInstruments)
         {
             if (playing == true)
                 return false;
-            MidiFile mf = null;
-            try
-            {
-                mf = new MidiFile(file);
-            }
-            catch (Exception ex)
-            {
-                //UnitySynth
-                Debug.Log("Error Loading Midi:\n" + ex.Message);
-                return false;
-            }
+            MidiFile mf = new MidiFile(filecontent);
             return LoadMidi(mf, UnloadUnusedInstruments);
         }
         public void Play()
@@ -183,9 +173,9 @@ namespace CSharpSynth.Sequencer
             else
                 synth.NoteOffAll(false);
         }
-        public void Pause(bool noteOffAll)
+        public void Pause(bool toPauseOrNotToPause, bool noteOffAll)
         {
-            playing = false;
+            playing = toPauseOrNotToPause;
 
             if (noteOffAll)
                 synth.NoteOffAll(true);

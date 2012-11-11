@@ -47,25 +47,10 @@ namespace CSharpSynth.Midi
             get { return mheader; }
         }
         //--Public Methods
-        public MidiFile(string filename)
+        public MidiFile(byte[] filecontent)
         {
-            Stream midiStream = null;
-            try
-            {
-                //UnitySynth
-                //midiStream = File.Open(filename, FileMode.Open);
-                TextAsset midiFileName = Resources.Load(filename) as TextAsset;
-                midiStream = new MemoryStream(midiFileName.bytes);
+            using (var midiStream = new MemoryStream(filecontent)) {
                 loadStream(midiStream);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Midi Failed to Load!", ex);
-            }
-            finally
-            {
-                if (midiStream != null)
-                    midiStream.Close();
             }
         }
         public List<MidiEvent> getAllMidiEventsofType(MidiHelper.MidiChannelEvent eventChannelType, MidiHelper.MidiMetaEvent eventMetaType)
