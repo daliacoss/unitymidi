@@ -75,7 +75,10 @@ public class MidiPlayer : MonoBehaviour
         sequencer.Play();
     }
 	
-	public void Play(){
+	public void Play(TextAsset midiFile=null){
+        if (midiFile == null) {
+            midiFile = this.midiFile;
+        }
 		StartMidi(midiFile);
 	}
 
