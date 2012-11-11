@@ -37,7 +37,7 @@ public class UnitySynthTest : MonoBehaviour
 		midiStreamSynthesizer.LoadBank (bankFilePath);
 		
 		midiSequencer = new MidiSequencer (midiStreamSynthesizer);
-		midiSequencer.LoadMidi (midiFilePath, false);
+		midiSequencer.LoadMidi ((Resources.Load(midiFilePath) as TextAsset).bytes, false);
 		//These will be fired by the midiSequencer when a song plays. Check the console for messages
 		midiSequencer.NoteOnEvent += new MidiSequencer.NoteOnEventHandler (MidiNoteOnHandler);
 		midiSequencer.NoteOffEvent += new MidiSequencer.NoteOffEventHandler (MidiNoteOffHandler);	

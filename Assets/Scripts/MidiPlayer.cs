@@ -12,7 +12,7 @@ public class MidiPlayer : MonoBehaviour
     public float gain = 1f;
     public int sampleBufferSize = 1024;
     public static readonly string bankPath = "GM Bank/gm";
-	public string MidiFilePath = "Midis/canyon.mid";
+	public TextAsset midiFile;
 
     // Channel, Note, Velocity
     public event Action<int, int, int> OnNoteOn;
@@ -25,7 +25,6 @@ public class MidiPlayer : MonoBehaviour
     private StreamSynthesizer synthesizer;
     private MidiSequencer sequencer;
     private float[] sampleBuffer;
-    private string midiFilePath;
 
     private class MidiEventData
     {
@@ -69,16 +68,15 @@ public class MidiPlayer : MonoBehaviour
         }
     }
 
-    public void StartMidi(string midiFilePath)
+    public void StartMidi(TextAsset midiFile)
     {
-        //sequencer.Stop(true);
-        this.midiFilePath = midiFilePath;
-        sequencer.LoadMidi(midiFilePath, false);
+        sequencer.Stop(true);
+        sequencer.LoadMidi(midiFile.bytes, false);
         sequencer.Play();
     }
 	
 	public void Play(){
-		StartMidi(MidiFilePath);
+		StartMidi(midiFile);
 	}
 
     private void HandleNoteOn(int channel, int note, int velocity)
