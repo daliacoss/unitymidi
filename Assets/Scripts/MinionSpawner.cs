@@ -10,6 +10,8 @@ public class MinionSpawner : MonoBehaviour
 
     public GameObject[] prefabsToSpawn;
 
+    public Vector3 SpawnPosition { get { return spawnPoint != null ? spawnPoint.position : Vector3.zero; } }
+
     void Start()
     {
         midiPlayer.OnNoteOn += ProcessNoteOn;
@@ -23,7 +25,7 @@ public class MinionSpawner : MonoBehaviour
     {
         if (noteOnCounter % noteOnsBetweenEachSpawn == 0) {
             if (prefabsToSpawn.Length >= 1)
-                Object.Instantiate(prefabsToSpawn[0], spawnPoint.position, Quaternion.identity);
+                Object.Instantiate(prefabsToSpawn[0], SpawnPosition, Quaternion.identity);
         }
         noteOnCounter++;
     }
