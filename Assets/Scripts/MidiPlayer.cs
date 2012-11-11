@@ -9,6 +9,8 @@ using CSharpSynth.Midi;
 
 public class MidiPlayer : MonoBehaviour
 {
+    public static MidiPlayer instance { get; private set; }
+
     public float gain = 1f;
     public int sampleBufferSize = 1024;
     public static readonly string bankPath = "GM Bank/gm";
@@ -79,8 +81,19 @@ public class MidiPlayer : MonoBehaviour
         if (midiFile == null) {
             midiFile = this.midiFile;
         }
+        MidiPlayer.instance = this;
 		StartMidi(midiFile);
 	}
+
+    public void PauseSequence()
+    {
+        sequencer.Pause(true);
+    }
+
+    public void UnpauseSequence()
+    {
+        sequencer.Pause(false);
+    }
 
     private void HandleNoteOn(int channel, int note, int velocity)
     {
@@ -132,18 +145,6 @@ public class MidiPlayer : MonoBehaviour
             
         for (int i = 0; i < data.Length; i++) {
             data[i] = sampleBuffer[i] * gain;
-        }
-    }
-}
-
-public static class MidiPlayerPauser
-{
-    public static MidiPlayer instance;
-
-    public void PauseMidiPlayer()
-    {
-        if (instance != null) {
-;
         }
     }
 }

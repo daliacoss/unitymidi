@@ -173,7 +173,7 @@ namespace CSharpSynth.Sequencer
             else
                 synth.NoteOffAll(false);
         }
-        public void Pause(bool toPauseOrNotToPause, bool noteOffAll)
+        public void Pause(bool toPauseOrNotToPause, bool noteOffAll=true)
         {
             playing = toPauseOrNotToPause;
 
@@ -220,6 +220,8 @@ namespace CSharpSynth.Sequencer
         }
         public MidiSequencerEvent Process(int frame)
         {
+            if (!playing) return null;
+
             seqEvt.Events.Clear();
             //stop or loop
             if (sampleTime >= (int)_MidiFile.Tracks[0].TotalTime)
