@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using CSharpSynth.Sequencer;
 using CSharpSynth.Synthesis;
@@ -26,6 +27,17 @@ public class MidiPlayer : MonoBehaviour
     private float[] sampleBuffer;
     private string midiFilePath;
 
+    private class MidiEventData
+    {
+        public MidiHelper.MidiChannelEvent eventType;
+        public int channel;
+        public int note;
+        public int velocity;
+        public MidiEvent midiEvent;
+    }
+
+    private Queue<MidiEventData> eventQueue = new Queue<MidiEventData>();
+
     void Awake()
     {
         synthesizer = new StreamSynthesizer (44100, 2, sampleBufferSize, 40);
@@ -34,9 +46,27 @@ public class MidiPlayer : MonoBehaviour
         sequencer = new MidiSequencer (synthesizer);
 
         //These will be fired by the sequencer when a song plays. Check the console for messages
-        sequencer.NoteOnEvent += TriggerNoteOn;
-        sequencer.NoteOffEvent += TriggerNoteOff;
-        sequencer.OtherMidiEvent += TriggerMidiEvent;
+        sequencer.NoteOnEvent += HandleNoteOn;
+        sequencer.NoteOffEvent += HandleNoteOff;
+        sequencer.OtherMidiEvent += HandleMidiEvent;
+    }
+
+    void Update()
+    {
+        while (eventQueue.Count > 0) {
+            var evt = eventQueue.Dequeue();
+            switch(evt.eventType) {
+            case MidiHelper.MidiChannelEvent.Note_On:
+                TriggerNoteOn(evt.channel, evt.note, evt.velocity);
+                break;
+            case MidiHelper.MidiChannelEvent.Note_Off:
+                TriggerNoteOff(evt.channel, evt.note);
+                break;
+            case MidiHelper.MidiChannelEvent.Unknown:
+                TriggerMidiEvent(evt.midiEvent);
+                break;
+            }
+        }
     }
 
     public void StartMidi(string midiFilePath)
@@ -51,14 +81,41 @@ public class MidiPlayer : MonoBehaviour
 		StartMidi(MidiFilePath);
 	}
 
+    private void HandleNoteOn(int channel, int note, int velocity)
+    {
+        eventQueue.Enqueue(new MidiEventData() {
+            eventType = MidiHelper.MidiChannelEvent.Note_On,
+            channel = channel,
+            note = note,
+            velocity = velocity
+        });
+    }
+
     private void TriggerNoteOn(int channel, int note, int velocity)
     {
         if (OnNoteOn != null) OnNoteOn(channel, note, velocity);
     }
 
+    private void HandleNoteOff(int channel, int note)
+    {
+        eventQueue.Enqueue(new MidiEventData() {
+            eventType = MidiHelper.MidiChannelEvent.Note_Off,
+            channel = channel,
+            note = note,
+        });
+    }
+
     private void TriggerNoteOff(int channel, int note)
     {
         if (OnNoteOff != null) OnNoteOff(channel, note);
+    }
+
+    private void HandleMidiEvent(MidiEvent midiEvent)
+    {
+        eventQueue.Enqueue(new MidiEventData() {
+            eventType = MidiHelper.MidiChannelEvent.Unknown,
+            midiEvent = midiEvent
+        });
     }
 
     private void TriggerMidiEvent(MidiEvent evt)
