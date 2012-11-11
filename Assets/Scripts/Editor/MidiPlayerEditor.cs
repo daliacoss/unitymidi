@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomInspector(typeof(MidiPlayer))]
+//[CustomInspector(typeof(MidiPlayer))]
 public class MidiPlayerEditor : Editor
 {
     void Awake()
     {
-        EditorApplication.playmodeStateChanged += 
+        //EditorApplication.playmodeStateChanged += 
     }
 
     public override void OnInspectorGUI()
